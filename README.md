@@ -1,10 +1,10 @@
-# atsam4e16e for Rust
+# Microchip/Atmel ATSAM4E16E PAC for Rust
 
-This repository holds various crates that support/enable working with Atmel `sam4e` device using Rust.
+This repository holds the Peripheral Access Crate for the Atmel `ATSAM4E16E` microcontroller.
 
-[![Build Status](https://travis-ci.org/atsam4e-rs/atsam4e.svg?branch=master)](https://travis-ci.org/atsam4e-rs/atsam4e16e)
+[![Build Status](https://travis-ci.org/atsam4e-rs/atsam4e16e.svg?branch=master)](https://travis-ci.org/atsam4e-rs/atsam4e16e)
 
-The **P**eripheral **A**ccess **C**rates (**PAC**s) are automatically generated, and provide low-level access to the peripherals specified by a device's SVD file.
+This **P**eripheral **A**ccess **C**rates (**PAC**s) is automatically generated, and provides low-level access to the peripherals specified by a device's SVD file.
 
 ## License
 
