@@ -6,7 +6,7 @@ main() {
 
     if [ $TARGET = x86_64-unknown-linux-gnu ]; then
         # Generate the PAC
-        bash ../update.sh
+        bash update.sh
         cargo clean
         cargo build
     fi
