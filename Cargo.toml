@@ -5,7 +5,7 @@ description = "Peripheral access API for ATSAM4E16E microcontrollers"
 documentation = "https://docs.rs/atsam4e"
 keywords = ["arm", "cortex-m", "atsam4e16e", "svd2rust"]
 license = "MIT OR Apache-2.0"
-name = "atsam4e16e"
+name = "atsam4e16e-pac"
 repository = "https://github.com/atsam4e_rs/atsam4e16e"
 version = "0.1.0"
 
