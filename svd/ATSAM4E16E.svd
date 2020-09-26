@@ -530,21 +530,21 @@
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MODE2</name>
-                  <description>Automatic write of duty-cycle update registers by the PDC and automatic update of synchronous channels</description>
+                  <description>Automatic write of duty-cycle update registers by the Peripheral DMA Controller and automatic update of synchronous channels</description>
                   <value>0x2</value>
                 </enumeratedValue>
               </enumeratedValues>
             </field>
             <field>
               <name>PTRM</name>
-              <description>PDC Transfer Request Mode</description>
+              <description>Peripheral DMA Controller Transfer Request Mode</description>
               <bitOffset>20</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>PTRCS</name>
-              <description>PDC Transfer Request Comparison Selection</description>
+              <description>Peripheral DMA Controller Transfer Request Comparison Selection</description>
               <bitOffset>21</bitOffset>
               <bitWidth>3</bitWidth>
               <access>read-write</access>
@@ -598,7 +598,6 @@
           <addressOffset>0x00000030</addressOffset>
           <size>32</size>
           <access>write-only</access>
-          <resetValue>0x00000000</resetValue>
           <fields>
             <field>
               <name>UPRUPD</name>
@@ -1609,21 +1608,21 @@
           <fields>
             <field>
               <name>FPOL</name>
-              <description>Fault Polarity (fault input bit varies from 0 to 7)</description>
+              <description>Fault Polarity</description>
               <bitOffset>0</bitOffset>
               <bitWidth>8</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>FMOD</name>
-              <description>Fault Activation Mode (fault input bit varies from 0 to 7)</description>
+              <description>Fault Activation Mode</description>
               <bitOffset>8</bitOffset>
               <bitWidth>8</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>FFIL</name>
-              <description>Fault Filtering (fault input bit varies from 0 to 7)</description>
+              <description>Fault Filtering</description>
               <bitOffset>16</bitOffset>
               <bitWidth>8</bitWidth>
               <access>read-write</access>
@@ -1640,14 +1639,14 @@
           <fields>
             <field>
               <name>FIV</name>
-              <description>Fault Input Value (fault input bit varies from 0 to 7)</description>
+              <description>Fault Input Value</description>
               <bitOffset>0</bitOffset>
               <bitWidth>8</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>FS</name>
-              <description>Fault Status (fault input bit varies from 0 to 7)</description>
+              <description>Fault Status</description>
               <bitOffset>8</bitOffset>
               <bitWidth>8</bitWidth>
               <access>read-only</access>
@@ -1663,7 +1662,7 @@
           <fields>
             <field>
               <name>FCLR</name>
-              <description>Fault Clear (fault input bit varies from 0 to 7)</description>
+              <description>Fault Clear</description>
               <bitOffset>0</bitOffset>
               <bitWidth>8</bitWidth>
               <access>write-only</access>
@@ -1746,28 +1745,28 @@
           <fields>
             <field>
               <name>FPE0</name>
-              <description>Fault Protection Enable for channel 0 (fault input bit varies from 0 to 7)</description>
+              <description>Fault Protection Enable for channel 0</description>
               <bitOffset>0</bitOffset>
               <bitWidth>8</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>FPE1</name>
-              <description>Fault Protection Enable for channel 1 (fault input bit varies from 0 to 7)</description>
+              <description>Fault Protection Enable for channel 1</description>
               <bitOffset>8</bitOffset>
               <bitWidth>8</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>FPE2</name>
-              <description>Fault Protection Enable for channel 2 (fault input bit varies from 0 to 7)</description>
+              <description>Fault Protection Enable for channel 2</description>
               <bitOffset>16</bitOffset>
               <bitWidth>8</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>FPE3</name>
-              <description>Fault Protection Enable for channel 3 (fault input bit varies from 0 to 7)</description>
+              <description>Fault Protection Enable for channel 3</description>
               <bitOffset>24</bitOffset>
               <bitWidth>8</bitWidth>
               <access>read-write</access>
@@ -1778,7 +1777,7 @@
           <dim>2</dim>
           <dimIncrement>4</dimIncrement>
           <dimIndex>0-1</dimIndex>
-          <name>ELMR%s</name>
+          <name>ELMR[%s]</name>
           <description>PWM Event Line 0 Mode Register</description>
           <addressOffset>0x0000007C</addressOffset>
           <size>32</size>
@@ -1988,72 +1987,96 @@
         </register>
         <register>
           <name>WPCR</name>
-          <description>PWM Write Protect Control Register</description>
+          <description>PWM Write Protection Control Register</description>
           <addressOffset>0x000000E4</addressOffset>
           <size>32</size>
           <access>write-only</access>
           <fields>
             <field>
               <name>WPCMD</name>
-              <description>Write Protect Command</description>
+              <description>Write Protection Command</description>
               <bitOffset>0</bitOffset>
               <bitWidth>2</bitWidth>
               <access>write-only</access>
+              <enumeratedValues>
+                <enumeratedValue>
+                  <name>DISABLE_SW_PROT</name>
+                  <description>Disables the software write protection of the register groups of which the bit WPRGx is at '1'.</description>
+                  <value>0x0</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>ENABLE_SW_PROT</name>
+                  <description>Enables the software write protection of the register groups of which the bit WPRGx is at '1'.</description>
+                  <value>0x1</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>ENABLE_HW_PROT</name>
+                  <description>Enables the hardware write protection of the register groups of which the bit WPRGx is at '1'. Only a hardware reset of the PWM controller can disable the hardware write protection. Moreover, to meet security requirements, the PIO lines associated with the PWM can not be configured through the PIO interface.</description>
+                  <value>0x2</value>
+                </enumeratedValue>
+              </enumeratedValues>
             </field>
             <field>
               <name>WPRG0</name>
-              <description>Write Protect Register Group 0</description>
+              <description>Write Protection Register Group 0</description>
               <bitOffset>2</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>WPRG1</name>
-              <description>Write Protect Register Group 1</description>
+              <description>Write Protection Register Group 1</description>
               <bitOffset>3</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>WPRG2</name>
-              <description>Write Protect Register Group 2</description>
+              <description>Write Protection Register Group 2</description>
               <bitOffset>4</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>WPRG3</name>
-              <description>Write Protect Register Group 3</description>
+              <description>Write Protection Register Group 3</description>
               <bitOffset>5</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>WPRG4</name>
-              <description>Write Protect Register Group 4</description>
+              <description>Write Protection Register Group 4</description>
               <bitOffset>6</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>WPRG5</name>
-              <description>Write Protect Register Group 5</description>
+              <description>Write Protection Register Group 5</description>
               <bitOffset>7</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>WPKEY</name>
-              <description>Write Protect Key</description>
+              <description>Write Protection Key</description>
               <bitOffset>8</bitOffset>
               <bitWidth>24</bitWidth>
               <access>write-only</access>
+              <enumeratedValues>
+                <enumeratedValue>
+                  <name>PASSWD</name>
+                  <description>Writing any other value in this field aborts the write operation of the WPCMD field.Always reads as 0</description>
+                  <value>0x50574D</value>
+                </enumeratedValue>
+              </enumeratedValues>
             </field>
           </fields>
         </register>
         <register>
           <name>WPSR</name>
-          <description>PWM Write Protect Status Register</description>
+          <description>PWM Write Protection Status Register</description>
           <addressOffset>0x000000E8</addressOffset>
           <size>32</size>
           <access>read-only</access>
@@ -3264,57 +3287,57 @@
               <enumeratedValues>
                 <enumeratedValue>
                   <name>MCK</name>
-                  <description>Master clock</description>
+                  <description>Peripheral clock</description>
                   <value>0x0</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_2</name>
-                  <description>Master clock/2</description>
+                  <description>Peripheral clock/2</description>
                   <value>0x1</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_4</name>
-                  <description>Master clock/4</description>
+                  <description>Peripheral clock/4</description>
                   <value>0x2</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_8</name>
-                  <description>Master clock/8</description>
+                  <description>Peripheral clock/8</description>
                   <value>0x3</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_16</name>
-                  <description>Master clock/16</description>
+                  <description>Peripheral clock/16</description>
                   <value>0x4</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_32</name>
-                  <description>Master clock/32</description>
+                  <description>Peripheral clock/32</description>
                   <value>0x5</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_64</name>
-                  <description>Master clock/64</description>
+                  <description>Peripheral clock/64</description>
                   <value>0x6</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_128</name>
-                  <description>Master clock/128</description>
+                  <description>Peripheral clock/128</description>
                   <value>0x7</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_256</name>
-                  <description>Master clock/256</description>
+                  <description>Peripheral clock/256</description>
                   <value>0x8</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_512</name>
-                  <description>Master clock/512</description>
+                  <description>Peripheral clock/512</description>
                   <value>0x9</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_1024</name>
-                  <description>Master clock/1024</description>
+                  <description>Peripheral clock/1024</description>
                   <value>0xA</value>
                 </enumeratedValue>
                 <enumeratedValue>
@@ -3527,57 +3550,57 @@
               <enumeratedValues>
                 <enumeratedValue>
                   <name>MCK</name>
-                  <description>Master clock</description>
+                  <description>Peripheral clock</description>
                   <value>0x0</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_2</name>
-                  <description>Master clock/2</description>
+                  <description>Peripheral clock/2</description>
                   <value>0x1</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_4</name>
-                  <description>Master clock/4</description>
+                  <description>Peripheral clock/4</description>
                   <value>0x2</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_8</name>
-                  <description>Master clock/8</description>
+                  <description>Peripheral clock/8</description>
                   <value>0x3</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_16</name>
-                  <description>Master clock/16</description>
+                  <description>Peripheral clock/16</description>
                   <value>0x4</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_32</name>
-                  <description>Master clock/32</description>
+                  <description>Peripheral clock/32</description>
                   <value>0x5</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_64</name>
-                  <description>Master clock/64</description>
+                  <description>Peripheral clock/64</description>
                   <value>0x6</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_128</name>
-                  <description>Master clock/128</description>
+                  <description>Peripheral clock/128</description>
                   <value>0x7</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_256</name>
-                  <description>Master clock/256</description>
+                  <description>Peripheral clock/256</description>
                   <value>0x8</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_512</name>
-                  <description>Master clock/512</description>
+                  <description>Peripheral clock/512</description>
                   <value>0x9</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_1024</name>
-                  <description>Master clock/1024</description>
+                  <description>Peripheral clock/1024</description>
                   <value>0xA</value>
                 </enumeratedValue>
                 <enumeratedValue>
@@ -3790,57 +3813,57 @@
               <enumeratedValues>
                 <enumeratedValue>
                   <name>MCK</name>
-                  <description>Master clock</description>
+                  <description>Peripheral clock</description>
                   <value>0x0</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_2</name>
-                  <description>Master clock/2</description>
+                  <description>Peripheral clock/2</description>
                   <value>0x1</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_4</name>
-                  <description>Master clock/4</description>
+                  <description>Peripheral clock/4</description>
                   <value>0x2</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_8</name>
-                  <description>Master clock/8</description>
+                  <description>Peripheral clock/8</description>
                   <value>0x3</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_16</name>
-                  <description>Master clock/16</description>
+                  <description>Peripheral clock/16</description>
                   <value>0x4</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_32</name>
-                  <description>Master clock/32</description>
+                  <description>Peripheral clock/32</description>
                   <value>0x5</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_64</name>
-                  <description>Master clock/64</description>
+                  <description>Peripheral clock/64</description>
                   <value>0x6</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_128</name>
-                  <description>Master clock/128</description>
+                  <description>Peripheral clock/128</description>
                   <value>0x7</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_256</name>
-                  <description>Master clock/256</description>
+                  <description>Peripheral clock/256</description>
                   <value>0x8</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_512</name>
-                  <description>Master clock/512</description>
+                  <description>Peripheral clock/512</description>
                   <value>0x9</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_1024</name>
-                  <description>Master clock/1024</description>
+                  <description>Peripheral clock/1024</description>
                   <value>0xA</value>
                 </enumeratedValue>
                 <enumeratedValue>
@@ -4053,57 +4076,57 @@
               <enumeratedValues>
                 <enumeratedValue>
                   <name>MCK</name>
-                  <description>Master clock</description>
+                  <description>Peripheral clock</description>
                   <value>0x0</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_2</name>
-                  <description>Master clock/2</description>
+                  <description>Peripheral clock/2</description>
                   <value>0x1</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_4</name>
-                  <description>Master clock/4</description>
+                  <description>Peripheral clock/4</description>
                   <value>0x2</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_8</name>
-                  <description>Master clock/8</description>
+                  <description>Peripheral clock/8</description>
                   <value>0x3</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_16</name>
-                  <description>Master clock/16</description>
+                  <description>Peripheral clock/16</description>
                   <value>0x4</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_32</name>
-                  <description>Master clock/32</description>
+                  <description>Peripheral clock/32</description>
                   <value>0x5</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_64</name>
-                  <description>Master clock/64</description>
+                  <description>Peripheral clock/64</description>
                   <value>0x6</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_128</name>
-                  <description>Master clock/128</description>
+                  <description>Peripheral clock/128</description>
                   <value>0x7</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_256</name>
-                  <description>Master clock/256</description>
+                  <description>Peripheral clock/256</description>
                   <value>0x8</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_512</name>
-                  <description>Master clock/512</description>
+                  <description>Peripheral clock/512</description>
                   <value>0x9</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>MCK_DIV_1024</name>
-                  <description>Master clock/1024</description>
+                  <description>Peripheral clock/1024</description>
                   <value>0xA</value>
                 </enumeratedValue>
                 <enumeratedValue>
@@ -4789,7 +4812,6 @@
           <addressOffset>0x00000120</addressOffset>
           <size>32</size>
           <access>write-only</access>
-          <resetValue>0x00000000</resetValue>
           <fields>
             <field>
               <name>RXTEN</name>
@@ -16979,7 +17001,7 @@
           <dim>4</dim>
           <dimIncrement>4</dimIncrement>
           <dimIndex>0-3</dimIndex>
-          <name>RSPR%s</name>
+          <name>RSPR[%s]</name>
           <description>Response Register</description>
           <addressOffset>0x00000020</addressOffset>
           <size>32</size>
@@ -17037,35 +17059,35 @@
           <fields>
             <field>
               <name>CMDRDY</name>
-              <description>Command Ready</description>
+              <description>Command Ready (cleared by writing in HSMCI_CMDR)</description>
               <bitOffset>0</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>RXRDY</name>
-              <description>Receiver Ready</description>
+              <description>Receiver Ready (cleared by reading HSMCI_RDR)</description>
               <bitOffset>1</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>TXRDY</name>
-              <description>Transmit Ready</description>
+              <description>Transmit Ready (cleared by writing in HSMCI_TDR)</description>
               <bitOffset>2</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>BLKE</name>
-              <description>Data Block Ended</description>
+              <description>Data Block Ended (cleared on read)</description>
               <bitOffset>3</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>DTIP</name>
-              <description>Data Transfer in Progress</description>
+              <description>Data Transfer in Progress (cleared at the end of CRC16 calculation)</description>
               <bitOffset>4</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
@@ -17079,21 +17101,21 @@
             </field>
             <field>
               <name>ENDRX</name>
-              <description>End of RX Buffer</description>
+              <description>End of RX Buffer (cleared by writing HSMCI_RCR or HSMCI_RNCR(1))</description>
               <bitOffset>6</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>ENDTX</name>
-              <description>End of TX Buffer</description>
+              <description>End of TX Buffer (cleared by writing HSMCI_TCR or HSMCI_TNCR(1))</description>
               <bitOffset>7</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>SDIOIRQA</name>
-              <description>SDIO Interrupt for Slot A</description>
+              <description>SDIO Interrupt for Slot A (cleared on read)</description>
               <bitOffset>8</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
@@ -17107,77 +17129,77 @@
             </field>
             <field>
               <name>CSRCV</name>
-              <description>CE-ATA Completion Signal Received</description>
+              <description>CE-ATA Completion Signal Received (cleared on read)</description>
               <bitOffset>13</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>RXBUFF</name>
-              <description>RX Buffer Full</description>
+              <description>RX Buffer Full (cleared by writing HSMCI_RCR or HSMCI_RNCR(1))</description>
               <bitOffset>14</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>TXBUFE</name>
-              <description>TX Buffer Empty</description>
+              <description>TX Buffer Empty (cleared by writing HSMCI_TCR or HSMCI_TNCR(1))</description>
               <bitOffset>15</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>RINDE</name>
-              <description>Response Index Error</description>
+              <description>Response Index Error (cleared by writing in HSMCI_CMDR)</description>
               <bitOffset>16</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>RDIRE</name>
-              <description>Response Direction Error</description>
+              <description>Response Direction Error (cleared by writing in HSMCI_CMDR)</description>
               <bitOffset>17</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>RCRCE</name>
-              <description>Response CRC Error</description>
+              <description>Response CRC Error (cleared by writing in HSMCI_CMDR)</description>
               <bitOffset>18</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>RENDE</name>
-              <description>Response End Bit Error</description>
+              <description>Response End Bit Error (cleared by writing in HSMCI_CMDR)</description>
               <bitOffset>19</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>RTOE</name>
-              <description>Response Time-out Error</description>
+              <description>Response Time-out Error (cleared by writing in HSMCI_CMDR)</description>
               <bitOffset>20</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>DCRCE</name>
-              <description>Data CRC Error</description>
+              <description>Data CRC Error (cleared on read)</description>
               <bitOffset>21</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>DTOE</name>
-              <description>Data Time-out Error</description>
+              <description>Data Time-out Error (cleared on read)</description>
               <bitOffset>22</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>CSTOE</name>
-              <description>Completion Signal Time-out Error</description>
+              <description>Completion Signal Time-out Error (cleared on read)</description>
               <bitOffset>23</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
@@ -17198,28 +17220,28 @@
             </field>
             <field>
               <name>ACKRCV</name>
-              <description>Boot Operation Acknowledge Received</description>
+              <description>Boot Operation Acknowledge Received  (cleared on read)</description>
               <bitOffset>28</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>ACKRCVE</name>
-              <description>Boot Operation Acknowledge Error</description>
+              <description>Boot Operation Acknowledge Error (cleared on read)</description>
               <bitOffset>29</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>OVRE</name>
-              <description>Overrun</description>
+              <description>Overrun (if FERRCTRL = 1, cleared by writing in HSMCI_CMDR or cleared on read if FERRCTRL = 0)</description>
               <bitOffset>30</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>UNRE</name>
-              <description>Underrun</description>
+              <description>Underrun (if FERRCTRL = 1, cleared by writing in HSMCI_CMDR or cleared on read if FERRCTRL = 0)</description>
               <bitOffset>31</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
@@ -17867,18 +17889,25 @@
           <access>read-write</access>
           <fields>
             <field>
-              <name>WP_EN</name>
-              <description>Write Protection Enable</description>
+              <name>WPEN</name>
+              <description>Write Protect Enable</description>
               <bitOffset>0</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
-              <name>WP_KEY</name>
-              <description>Write Protection Key password</description>
+              <name>WPKEY</name>
+              <description>Write Protect Key</description>
               <bitOffset>8</bitOffset>
               <bitWidth>24</bitWidth>
               <access>read-write</access>
+              <enumeratedValues>
+                <enumeratedValue>
+                  <name>PASSWD</name>
+                  <description>Writing any other value in this field aborts the write operation of the WPEN bit.Always reads as 0.</description>
+                  <value>0x4D4349</value>
+                </enumeratedValue>
+              </enumeratedValues>
             </field>
           </fields>
         </register>
@@ -17890,37 +17919,15 @@
           <access>read-only</access>
           <fields>
             <field>
-              <name>WP_VS</name>
+              <name>WPVS</name>
               <description>Write Protection Violation Status</description>
               <bitOffset>0</bitOffset>
-              <bitWidth>4</bitWidth>
+              <bitWidth>1</bitWidth>
               <access>read-only</access>
-              <enumeratedValues>
-                <enumeratedValue>
-                  <name>NONE</name>
-                  <description>No Write Protection Violation occurred since the last read of this register (WP_SR)</description>
-                  <value>0x0</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>WRITE</name>
-                  <description>Write Protection detected unauthorized attempt to write a control register had occurred (since the last read.)</description>
-                  <value>0x1</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>RESET</name>
-                  <description>Software reset had been performed while Write Protection was enabled (since the last read).</description>
-                  <value>0x2</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>BOTH</name>
-                  <description>Both Write Protection violation and software reset with Write Protection enabled have occurred since the last read.</description>
-                  <value>0x3</value>
-                </enumeratedValue>
-              </enumeratedValues>
             </field>
             <field>
-              <name>WP_VSRC</name>
-              <description>Write Protection Violation SouRCe</description>
+              <name>WPVSRC</name>
+              <description>Write Protection Violation Source</description>
               <bitOffset>8</bitOffset>
               <bitWidth>16</bitWidth>
               <access>read-only</access>
@@ -17931,11 +17938,20 @@
           <dim>256</dim>
           <dimIncrement>4</dimIncrement>
           <dimIndex>0-255</dimIndex>
-          <name>FIFO%s</name>
+          <name>FIFO[%s]</name>
           <description>FIFO Memory Aperture0</description>
           <addressOffset>0x00000200</addressOffset>
           <size>32</size>
           <access>read-write</access>
+          <fields>
+            <field>
+              <name>DATA</name>
+              <description>Data to Read or Data to Write</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>32</bitWidth>
+              <access>read-write</access>
+            </field>
+          </fields>
         </register>
         <register>
           <name>RPR</name>
@@ -18079,7 +18095,6 @@
           <addressOffset>0x00000120</addressOffset>
           <size>32</size>
           <access>write-only</access>
-          <resetValue>0x00000000</resetValue>
           <fields>
             <field>
               <name>RXTEN</name>
@@ -69527,224 +69542,224 @@
           <fields>
             <field>
               <name>P0</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>0</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P1</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>1</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P2</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>2</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P3</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>3</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P4</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>4</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P5</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>5</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P6</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>6</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P7</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>7</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P8</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>8</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P9</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>9</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P10</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>10</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P11</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>11</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P12</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>12</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P13</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>13</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P14</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>14</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P15</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>15</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P16</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>16</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P17</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>17</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P18</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>18</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P19</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>19</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P20</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>20</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P21</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>21</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P22</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>22</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P23</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>23</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P24</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>24</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P25</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>25</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P26</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>26</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P27</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>27</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P28</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>28</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P29</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>29</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P30</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>30</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P31</name>
-              <description>Multi Drive Enable.</description>
+              <description>Multi-drive Enable</description>
               <bitOffset>31</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
@@ -69760,224 +69775,224 @@
           <fields>
             <field>
               <name>P0</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>0</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P1</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>1</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P2</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>2</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P3</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>3</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P4</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>4</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P5</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>5</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P6</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>6</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P7</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>7</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P8</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>8</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P9</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>9</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P10</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>10</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P11</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>11</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P12</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>12</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P13</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>13</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P14</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>14</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P15</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>15</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P16</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>16</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P17</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>17</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P18</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>18</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P19</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>19</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P20</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>20</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P21</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>21</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P22</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>22</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P23</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>23</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P24</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>24</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P25</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>25</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P26</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>26</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P27</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>27</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P28</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>28</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P29</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>29</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P30</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>30</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P31</name>
-              <description>Multi Drive Disable.</description>
+              <description>Multi-drive Disable</description>
               <bitOffset>31</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
@@ -69994,224 +70009,224 @@
           <fields>
             <field>
               <name>P0</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>0</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P1</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>1</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P2</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>2</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P3</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>3</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P4</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>4</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P5</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>5</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P6</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>6</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P7</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>7</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P8</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>8</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P9</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>9</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P10</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>10</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P11</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>11</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P12</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>12</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P13</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>13</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P14</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>14</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P15</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>15</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P16</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>16</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P17</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>17</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P18</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>18</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P19</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>19</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P20</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>20</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P21</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>21</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P22</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>22</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P23</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>23</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P24</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>24</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P25</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>25</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P26</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>26</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P27</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>27</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P28</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>28</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P29</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>29</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P30</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>30</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P31</name>
-              <description>Multi Drive Status.</description>
+              <description>Multi-drive Status</description>
               <bitOffset>31</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
@@ -70227,224 +70242,224 @@
           <fields>
             <field>
               <name>P0</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>0</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P1</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>1</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P2</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>2</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P3</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>3</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P4</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>4</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P5</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>5</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P6</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>6</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P7</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>7</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P8</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>8</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P9</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>9</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P10</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>10</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P11</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>11</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P12</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>12</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P13</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>13</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P14</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>14</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P15</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>15</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P16</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>16</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P17</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>17</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P18</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>18</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P19</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>19</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P20</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>20</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P21</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>21</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P22</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>22</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P23</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>23</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P24</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>24</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P25</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>25</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P26</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>26</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P27</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>27</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P28</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>28</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P29</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>29</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P30</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>30</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P31</name>
-              <description>Pull Up Disable.</description>
+              <description>Pull-Up Disable</description>
               <bitOffset>31</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
@@ -70460,224 +70475,224 @@
           <fields>
             <field>
               <name>P0</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>0</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P1</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>1</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P2</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>2</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P3</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>3</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P4</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>4</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P5</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>5</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P6</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>6</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P7</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>7</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P8</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>8</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P9</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>9</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P10</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>10</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P11</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>11</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P12</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>12</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P13</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>13</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P14</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>14</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P15</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>15</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P16</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>16</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P17</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>17</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P18</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>18</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P19</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>19</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P20</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>20</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P21</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>21</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P22</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>22</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P23</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>23</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P24</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>24</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P25</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>25</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P26</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>26</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P27</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>27</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P28</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>28</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P29</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>29</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P30</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>30</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P31</name>
-              <description>Pull Up Enable.</description>
+              <description>Pull-Up Enable</description>
               <bitOffset>31</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
@@ -70693,224 +70708,224 @@
           <fields>
             <field>
               <name>P0</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>0</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P1</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>1</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P2</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>2</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P3</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>3</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P4</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>4</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P5</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>5</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P6</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>6</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P7</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>7</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P8</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>8</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P9</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>9</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P10</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>10</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P11</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>11</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P12</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>12</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P13</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>13</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P14</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>14</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P15</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>15</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P16</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>16</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P17</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>17</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P18</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>18</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P19</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>19</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P20</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>20</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P21</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>21</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P22</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>22</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P23</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>23</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P24</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>24</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P25</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>25</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P26</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>26</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P27</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>27</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P28</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>28</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P29</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>29</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P30</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>30</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P31</name>
-              <description>Pull Up Status.</description>
+              <description>Pull-Up Status</description>
               <bitOffset>31</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
@@ -70921,7 +70936,7 @@
           <dim>2</dim>
           <dimIncrement>4</dimIncrement>
           <dimIndex>0-1</dimIndex>
-          <name>ABCDSR%s</name>
+          <name>ABCDSR[%s]</name>
           <description>Peripheral Select Register</description>
           <addressOffset>0x00000070</addressOffset>
           <size>32</size>
@@ -70929,224 +70944,224 @@
           <fields>
             <field>
               <name>P0</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>0</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P1</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>1</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P2</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>2</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P3</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>3</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P4</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>4</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P5</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>5</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P6</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>6</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P7</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>7</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P8</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>8</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P9</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>9</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P10</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>10</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P11</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>11</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P12</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>12</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P13</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>13</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P14</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>14</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P15</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>15</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P16</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>16</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P17</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>17</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P18</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>18</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P19</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>19</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P20</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>20</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P21</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>21</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P22</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>22</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P23</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>23</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P24</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>24</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P25</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>25</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P26</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>26</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P27</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>27</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P28</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>28</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P29</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>29</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P30</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>30</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
             </field>
             <field>
               <name>P31</name>
-              <description>Peripheral Select.</description>
+              <description>Peripheral Select</description>
               <bitOffset>31</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-write</access>
@@ -71162,224 +71177,224 @@
           <fields>
             <field>
               <name>P0</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>0</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P1</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>1</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P2</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>2</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P3</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>3</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P4</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>4</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P5</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>5</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P6</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>6</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P7</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>7</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P8</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>8</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P9</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>9</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P10</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>10</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P11</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>11</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P12</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>12</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P13</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>13</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P14</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>14</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P15</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>15</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P16</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>16</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P17</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>17</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P18</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>18</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P19</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>19</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P20</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>20</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P21</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>21</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P22</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>22</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P23</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>23</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P24</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>24</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P25</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>25</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P26</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>26</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P27</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>27</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P28</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>28</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P29</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>29</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P30</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>30</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P31</name>
-              <description>PIO Clock Glitch Filtering Select.</description>
+              <description>Peripheral Clock Glitch Filtering Select</description>
               <bitOffset>31</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
@@ -71395,224 +71410,224 @@
           <fields>
             <field>
               <name>P0</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>0</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P1</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>1</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P2</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>2</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P3</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>3</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P4</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>4</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P5</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>5</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P6</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>6</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P7</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>7</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P8</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>8</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P9</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>9</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P10</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>10</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P11</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>11</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P12</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>12</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P13</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>13</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P14</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>14</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P15</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>15</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P16</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>16</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P17</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>17</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P18</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>18</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P19</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>19</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P20</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>20</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P21</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>21</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P22</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>22</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P23</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>23</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P24</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>24</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P25</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>25</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P26</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>26</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P27</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>27</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P28</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>28</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P29</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>29</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P30</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>30</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P31</name>
-              <description>Debouncing Filtering Select.</description>
+              <description>Slow Clock Debouncing Filtering Select</description>
               <bitOffset>31</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
@@ -71863,6 +71878,7 @@
           <fields>
             <field>
               <name>DIV</name>
+              <description>Slow Clock Divider Selection for Debouncing</description>
               <bitOffset>0</bitOffset>
               <bitWidth>14</bitWidth>
               <access>read-write</access>
@@ -71878,224 +71894,224 @@
           <fields>
             <field>
               <name>P0</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>0</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P1</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>1</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P2</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>2</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P3</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>3</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P4</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>4</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P5</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>5</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P6</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>6</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P7</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>7</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P8</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>8</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P9</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>9</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P10</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>10</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P11</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>11</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P12</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>12</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P13</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>13</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P14</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>14</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P15</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>15</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P16</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>16</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P17</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>17</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P18</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>18</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P19</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>19</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P20</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>20</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P21</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>21</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P22</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>22</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P23</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>23</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P24</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>24</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P25</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>25</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P26</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>26</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P27</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>27</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P28</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>28</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P29</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>29</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P30</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>30</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P31</name>
-              <description>Pull Down Disable.</description>
+              <description>Pull-Down Disable</description>
               <bitOffset>31</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
@@ -72111,224 +72127,224 @@
           <fields>
             <field>
               <name>P0</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>0</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P1</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>1</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P2</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>2</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P3</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>3</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P4</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>4</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P5</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>5</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P6</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>6</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P7</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>7</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P8</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>8</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P9</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>9</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P10</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>10</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P11</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>11</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P12</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>12</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P13</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>13</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P14</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>14</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P15</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>15</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P16</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>16</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P17</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>17</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P18</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>18</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P19</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>19</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P20</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>20</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P21</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>21</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P22</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>22</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P23</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>23</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P24</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>24</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P25</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>25</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P26</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>26</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P27</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>27</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P28</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>28</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P29</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>29</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P30</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>30</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P31</name>
-              <description>Pull Down Enable.</description>
+              <description>Pull-Down Enable</description>
               <bitOffset>31</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
@@ -72344,224 +72360,224 @@
           <fields>
             <field>
               <name>P0</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>0</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P1</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>1</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P2</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>2</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P3</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>3</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P4</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>4</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P5</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>5</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P6</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>6</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P7</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>7</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P8</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>8</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P9</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>9</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P10</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>10</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P11</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>11</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P12</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>12</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P13</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>13</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P14</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>14</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P15</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>15</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P16</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>16</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P17</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>17</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P18</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>18</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P19</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>19</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P20</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>20</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P21</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>21</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P22</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>22</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P23</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>23</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P24</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>24</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P25</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>25</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P26</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>26</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P27</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>27</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P28</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>28</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P29</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>29</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P30</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>30</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
             </field>
             <field>
               <name>P31</name>
-              <description>Pull Down Status.</description>
+              <description>Pull-Down Status</description>
               <bitOffset>31</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
@@ -72577,224 +72593,224 @@
           <fields>
             <field>
               <name>P0</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>0</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P1</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>1</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P2</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>2</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P3</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>3</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P4</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>4</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P5</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>5</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P6</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>6</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P7</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>7</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P8</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>8</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P9</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>9</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P10</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>10</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P11</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>11</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P12</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>12</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P13</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>13</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P14</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>14</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P15</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>15</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P16</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>16</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P17</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>17</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P18</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>18</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P19</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>19</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P20</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>20</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P21</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>21</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P22</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>22</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P23</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>23</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P24</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>24</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P25</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>25</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P26</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>26</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P27</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>27</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P28</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>28</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P29</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>29</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P30</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>30</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P31</name>
-              <description>Output Write Enable.</description>
+              <description>Output Write Enable</description>
               <bitOffset>31</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
@@ -72810,168 +72826,168 @@
           <fields>
             <field>
               <name>P0</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>0</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P1</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>1</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P2</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>2</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P3</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>3</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P4</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>4</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P5</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>5</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P6</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>6</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P7</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>7</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P8</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>8</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P9</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>9</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P10</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>10</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P11</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>11</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P12</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>12</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P13</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>13</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P14</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>14</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P15</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>15</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P16</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>16</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P17</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>17</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P18</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>18</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P19</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>19</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P20</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>20</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P21</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>21</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P22</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>22</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
             </field>
             <field>
               <name>P23</name>
-              <description>Output Write Disable.</description>
+              <description>Output Write Disable</description>
               <bitOffset>23</bitOffset>
               <bitWidth>1</bitWidth>
               <access>write-only</access>
