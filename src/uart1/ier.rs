@@ -221,42 +221,42 @@ impl<'a> RXBUFF_W<'a> {
     }
 }
 impl W {
-    #[doc = "Bit 0 - Enable RXRDY Interrupt"]
+    #[doc = "Bit 0 - RXRDY Interrupt Enable"]
     #[inline(always)]
     pub fn rxrdy(&mut self) -> RXRDY_W {
         RXRDY_W { w: self }
     }
-    #[doc = "Bit 1 - Enable TXRDY Interrupt"]
+    #[doc = "Bit 1 - TXRDY Interrupt Enable"]
     #[inline(always)]
     pub fn txrdy(&mut self) -> TXRDY_W {
         TXRDY_W { w: self }
     }
-    #[doc = "Bit 3 - Enable End of Receive Transfer Interrupt"]
+    #[doc = "Bit 3 - End of Receive Buffer Interrupt Enable (available in all USART modes of operation)"]
     #[inline(always)]
     pub fn endrx(&mut self) -> ENDRX_W {
         ENDRX_W { w: self }
     }
-    #[doc = "Bit 4 - Enable End of Transmit Interrupt"]
+    #[doc = "Bit 4 - End of Transmit Buffer Interrupt Enable (available in all USART modes of operation)"]
     #[inline(always)]
     pub fn endtx(&mut self) -> ENDTX_W {
         ENDTX_W { w: self }
     }
-    #[doc = "Bit 5 - Enable Overrun Error Interrupt"]
+    #[doc = "Bit 5 - Overrun Error Interrupt Enable"]
     #[inline(always)]
     pub fn ovre(&mut self) -> OVRE_W {
         OVRE_W { w: self }
     }
-    #[doc = "Bit 6 - Enable Framing Error Interrupt"]
+    #[doc = "Bit 6 - Framing Error Interrupt Enable"]
     #[inline(always)]
     pub fn frame(&mut self) -> FRAME_W {
         FRAME_W { w: self }
     }
-    #[doc = "Bit 7 - Enable Parity Error Interrupt"]
+    #[doc = "Bit 7 - Parity Error Interrupt Enable"]
     #[inline(always)]
     pub fn pare(&mut self) -> PARE_W {
         PARE_W { w: self }
     }
-    #[doc = "Bit 9 - Enable TXEMPTY Interrupt"]
+    #[doc = "Bit 9 - TXEMPTY Interrupt Enable"]
     #[inline(always)]
     pub fn txempty(&mut self) -> TXEMPTY_W {
         TXEMPTY_W { w: self }
@@ -266,7 +266,7 @@ impl W {
     pub fn txbufe(&mut self) -> TXBUFE_W {
         TXBUFE_W { w: self }
     }
-    #[doc = "Bit 12 - Enable Buffer Full Interrupt"]
+    #[doc = "Bit 12 - Receive Buffer Full Interrupt Enable"]
     #[inline(always)]
     pub fn rxbuff(&mut self) -> RXBUFF_W {
         RXBUFF_W { w: self }
